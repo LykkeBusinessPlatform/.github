@@ -1,0 +1,11 @@
+{
+    "name": "Lykke Business Messaging NuGet Publication Workflow",
+    "description": "Workflow to publish messaging NuGet packages",
+    "categories": [
+        "Automation",
+        "Shell",
+        "Dotnet",
+        "NuGet",
+        "RabbitMq"
+    ]
+}
