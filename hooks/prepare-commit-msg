@@ -1,0 +1,39 @@
+#!/bin/bash
+#
+# How to add this hook:
+# 1. Copy this file to .git/hooks/prepare-commit-msg
+# 2. Make the file executable: chmod +x .git/hooks/prepare-commit-msg
+# 3. The hook will now run automatically when you run git commit
+# 4. If you want to bypass the hook, you can run git commit with the --no-verify option
+
+# Get the current branch name
+branch_name=$(git symbolic-ref --short HEAD)
+
+# Extract the ticket name (assuming the ticket name is the first part of the branch name, delimited by '-')
+ticket_name=$(echo "$branch_name" | grep -oE '^[^-]+-[0-9]+' | awk '{print toupper($0)}')
+
+# If the ticket name is empty, do not modify the commit message
+if [ -z "$ticket_name" ]; then
+    exit 0
+fi
+
+# Get the name of the file containing the commit message
+commit_msg_file="$1"
+commit_msg=$(cat "$commit_msg_file")
+
+# Check if the commit message already contains the ticket name
+if echo "$commit_msg" | grep -qi "$ticket_name"; then
+    # The ticket name is already present in the commit message
+    exit 0
+fi
+
+# Modify the commit message to include the ticket name if it follows the conventional commits format
+if [[ $commit_msg =~ ^(feat|fix|docs|style|refactor|perf|test|chore|build|ci|revert)(\(.+\))?: ]]; then
+    # If the commit message follows the conventional commits format, add the ticket name
+    new_commit_msg=$(echo "$commit_msg" | sed "s/^\([a-z]*\)\(\(.*\)\): \(.*\)$/\1($ticket_name): \4/")
+    # Save the modified commit message back to the file
+    echo "$new_commit_msg" >"$commit_msg_file"
+fi
+
+# Allow the commit to proceed
+exit 0
