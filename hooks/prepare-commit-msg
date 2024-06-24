@@ -28,6 +28,10 @@
 # 3. Make the file executable: chmod +x prepare-commit-msg
 # 4. Set the git config to use the global hooks directory: git config --global core.hooksPath /path/to/the/directory
 # 5. The hook will now run automatically when you run git commit in any repository
+# 6. If you want to bypass the hook, you can run git commit with the --no-verify option
+#
+# Please note, instructions assume you do not have custom git hooks configured so far.
+# If you already have custom hooks, you can add the logic from this script to your existing hooks.
 
 # Get the current branch name
 branch_name=$(git symbolic-ref --short HEAD)
