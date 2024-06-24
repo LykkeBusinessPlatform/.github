@@ -21,6 +21,13 @@
 # 2. Make the file executable: chmod +x .git/hooks/prepare-commit-msg
 # 3. The hook will now run automatically when you run git commit
 # 4. If you want to bypass the hook, you can run git commit with the --no-verify option
+#
+# How to add this hook globally (for all git repositories)
+# 1. Choose a directory where you want to store the git hooks
+# 2. Copy this file to the directory and name it prepare-commit-msg
+# 3. Make the file executable: chmod +x prepare-commit-msg
+# 4. Set the git config to use the global hooks directory: git config --global core.hooksPath /path/to/the/directory
+# 5. The hook will now run automatically when you run git commit in any repository
 
 # Get the current branch name
 branch_name=$(git symbolic-ref --short HEAD)
