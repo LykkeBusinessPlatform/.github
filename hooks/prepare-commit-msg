@@ -1,5 +1,21 @@
 #!/bin/bash
 #
+# What this script is doing:
+# This is a Git hook that automatically prepends the ticket name to the
+# commit message in accordance with the conventional commits format.
+# The ticket name is extracted from the current branch name if only it is
+# named by convention, i.e. <project-code>-<ticket-number>.
+# For example, if the branch name is "abc-123-add-new-feature", the ticket name
+# will be "ABC-123".
+# The script will only modify the commit message if it follows the conventional
+# commits format, i.e. "<type>(<scope>): <description>". If the commit message
+# already contains the ticket name as a scope, it will not be modified.
+# If the scope is not present in the commit message, the script will add it.
+# Important:
+# 1 - This script assumes that the ticket name is the first part of the branch name.
+# 2 - the type has to be one of the following: feat, fix, docs, style, refactor, perf, test, chore, build, ci, revert
+# 3 - the type is mandatory and defined by the developer
+#
 # How to add this hook:
 # 1. Copy this file to .git/hooks/prepare-commit-msg
 # 2. Make the file executable: chmod +x .git/hooks/prepare-commit-msg
